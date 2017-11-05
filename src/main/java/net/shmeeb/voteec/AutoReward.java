@@ -54,7 +54,6 @@ public class AutoReward implements CommandExecutor {
 
 	@Listener
 	public void onJoin(ClientConnectionEvent.Join event) throws SQLException {
-		MessageChannel.TO_ALL.send(Text.of("test1"));
 		Connection conn = this.connectDB();
 		String squid;
 		String uuid = event.getTargetEntity().getIdentifier().toString();
@@ -67,11 +66,8 @@ public class AutoReward implements CommandExecutor {
 			prepstmt.setInt(2, 1);
 			prepstmt.executeUpdate();
 			MessageChannel.TO_ALL.send(Text.of("test2"));
-		} else if (resultSet.getString(2).equals(uuid)) {
+		} else if (resultSet.getString(2).equals(uuid)) { //I could change this but meh
 			conn.close();
-			MessageChannel.TO_ALL.send(Text.of("test3"));
-		} else {
-			MessageChannel.TO_ALL.send(Text.of("test4"));
 		}
 		int rsmd = resultSet.getMetaData().getColumnCount();
 	}
@@ -87,6 +83,8 @@ public class AutoReward implements CommandExecutor {
 		int votes = resultSet.getInt(3) + 1;
 		PreparedStatement prepstmt = conn.prepareStatement(sql);
 		String update = "update voterecords set votes='" + votes + "' where uuid = '" + uuid + "'";
+		conn.prepareStatement(update).executeUpdate();
+		conn.close();
 		return;
 
 	}
