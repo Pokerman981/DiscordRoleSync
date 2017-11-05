@@ -34,6 +34,7 @@ import java.nio.file.Path;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.spongepowered.api.text.action.TextActions;
+import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 import java.nio.file.Paths;
@@ -56,7 +57,7 @@ public class Main {
 
     @Inject
     private Logger logger;
-    private Logger getLogger() {
+    public Logger getLogger() {
         return logger;
     }
 
@@ -69,10 +70,15 @@ public class Main {
     @Inject @ConfigDir(sharedRoot = false)
     private Path privateConfigDir;
     private CommentedConfigurationNode rootNode;
+    
+	public Calendar calendar() {
+		Calendar cal = Calendar.getInstance();
+		return cal;
+	}
 
     ///////////////////////////////////////////////////////////////////////
-    private HashMap<UUID,Integer> storedVotes = new HashMap<>();
-    private static Optional<UserStorageService> userStorage;
+    public static HashMap<UUID,Integer> storedVotes = new HashMap<>();
+    public static Optional<UserStorageService> userStorage;
 
     private String url;
     private String single_broadcast_message;
@@ -152,6 +158,41 @@ public class Main {
                         return CommandResult.success();
                     }
                 }).build();
+        
+        CommandSpec test = CommandSpec.builder()
+                .description(Text.of("Test command"))
+                .permission("voteec.test")
+                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .executor(new CommandExecutor() {
+                    @Override
+                    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+                        Player player = args.<Player>getOne("player").get();
+                        String username = player.getName();
+                        String pid = player.getIdentifier();
+                        UUID playerID = UUID.fromString(pid);
+                        if(userStorage.get().get(username).isPresent()) {
+                            playerID = userStorage.get().get(username).get().getUniqueId();
+                            if(storedVotes.containsKey(playerID)) {
+                                storedVotes.put(playerID, storedVotes.get(playerID) + 1);
+                            } else {
+                                storedVotes.put(playerID, 1);
+                            }
+
+                            try {
+                                saveOffline();
+                            } catch (IOException e) {
+                                getLogger().error("Couldn't save that offline player's vote!", e);
+                            }
+                        }
+                        MessageChannel.TO_ALL.send(Text.of(storedVotes.size()));
+                        MessageChannel.TO_ALL.send(Text.of(storedVotes.toString()));
+                        MessageChannel.TO_ALL.send(Text.of(storedVotes.get(playerID)));
+
+                        return CommandResult.success();
+                    }
+                }).build();
+        
+        
 
         CommandSpec sendVote = CommandSpec.builder()
                 .description(Text.of("Sends a vote as a player"))
@@ -171,6 +212,7 @@ public class Main {
 
         Sponge.getCommandManager().register(this, reload,"vreload","voteecreload");
         Sponge.getCommandManager().register(this, sendVote, "sendvote");
+        Sponge.getCommandManager().register(this, test, "test");
     }
 
     @Listener
@@ -178,6 +220,7 @@ public class Main {
         saveDefaultConfigs();
         reloadConfigs();
         registerCommands();
+        Sponge.getEventManager().registerListeners(this, new AutoReward(this));
     }
 
     @Listener
@@ -263,7 +306,7 @@ public class Main {
         return TextSerializers.FORMATTING_CODE.serialize(Text.of(string));
     }
 
-    private void saveOffline() throws IOException {
+    public void saveOffline() throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(offlineVotes.toFile());
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
