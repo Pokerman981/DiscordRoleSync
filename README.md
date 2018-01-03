@@ -1,1 +1,1 @@
-# discordmcbot
+# DiscordRoleSync
