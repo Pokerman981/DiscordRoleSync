@@ -20,7 +20,7 @@ import me.pokerman99.DiscordRoleSync.commands.serverInfoCommand;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "discordserverstats", name = "DiscordServerStats", version = "1.0")
+@Plugin(id = "discordrolesync", name = "DiscordRoleSync", version = "1.0")
 public class Main{
 	@Inject
 	private Game game;

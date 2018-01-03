@@ -23,7 +23,7 @@ public class discord extends ListenerAdapter {
 			//jda.getPresence().setGame(Game.playing("A game"));
 		} catch (LoginException | IllegalArgumentException | RateLimitedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 	}
 

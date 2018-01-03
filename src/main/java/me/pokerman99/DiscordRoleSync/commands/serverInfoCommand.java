@@ -33,7 +33,7 @@ public class serverInfoCommand implements EventListener {
 	}
 
 	Runnable upTimeTask = new Runnable() {
-		public void run() {
+		public void run() { 
 			upTime++;
 		}
 	};
