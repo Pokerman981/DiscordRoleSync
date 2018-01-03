@@ -1,4 +1,4 @@
-package me.pokerman99.DiscordServerStats;
+package me.pokerman99.DiscordRoleSync;
 
 public class Ref {
 	public static final String main_token = "MjgyMDU2Nzc3MDAzMTcxODQx.DNPhEA.WHlUS8UCCE4gguOhe17YA4EN4GQ";

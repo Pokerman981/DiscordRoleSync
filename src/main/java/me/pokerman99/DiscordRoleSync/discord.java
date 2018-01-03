@@ -1,8 +1,8 @@
-package me.pokerman99.DiscordServerStats;
+package me.pokerman99.DiscordRoleSync;
 
 import javax.security.auth.login.LoginException;
 
-import me.pokerman99.DiscordServerStats.commands.serverInfoCommand;
+import me.pokerman99.DiscordRoleSync.commands.serverInfoCommand;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;

@@ -1,4 +1,4 @@
-package me.pokerman99.DiscordServerStats.listener;
+package me.pokerman99.DiscordRoleSync.listener;
 
 import java.util.ArrayList;
 import java.util.List;

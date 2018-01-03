@@ -1,4 +1,4 @@
-package me.pokerman99.DiscordServerStats.commands;
+package me.pokerman99.DiscordRoleSync.commands;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-import me.pokerman99.DiscordServerStats.Ref;
+import me.pokerman99.DiscordRoleSync.Ref;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;

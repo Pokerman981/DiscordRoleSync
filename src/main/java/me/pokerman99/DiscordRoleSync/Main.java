@@ -1,4 +1,4 @@
-package me.pokerman99.DiscordServerStats;
+package me.pokerman99.DiscordRoleSync;
 
 import java.nio.file.Path;
 
@@ -16,7 +16,7 @@ import org.spongepowered.api.plugin.PluginContainer;
 
 import com.google.inject.Inject;
 
-import me.pokerman99.DiscordServerStats.commands.serverInfoCommand;
+import me.pokerman99.DiscordRoleSync.commands.serverInfoCommand;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
